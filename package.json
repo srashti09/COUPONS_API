@@ -1,0 +1,27 @@
+{
+  "name": "coupons_api",
+  "version": "1.0.0",
+  "description": "RESTful API for managing discount coupons on an e-commerce platform.",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/srashti09/COUPONS_API.git"
+  },
+  "author": "SRASHTI SAXENA",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/srashti09/COUPONS_API/issues"
+  },
+  "homepage": "https://github.com/srashti09/COUPONS_API#readme",
+  "dependencies": {
+    "body-parser": "^1.20.2",
+    "express": "^4.19.2",
+    "helmet": "^7.1.0",
+    "mongodb": "^6.8.0",
+    "mongoose": "^8.6.1"
+  }
+}
