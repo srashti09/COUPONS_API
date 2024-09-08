@@ -11,13 +11,13 @@ function calculateDiscount(details, cartTotal) {
         const calculatedDiscount = (cartTotal * details.discount) / 100;
         discountApplied = Math.min(calculatedDiscount, details.maxDiscount);
     } else if (details.flatDiscount && cartTotal >= details.threshold) {
-        // Flat discount on minimum spend
+        // Flat discount on minimum spent
         discountApplied = details.flatDiscount;
     }
     return discountApplied;
 }
 
-// Create a new coupon
+// Creating a new coupon
 const createCoupon = async (req, res) => {
     try {
         const coupon = new Coupon(req.body);
@@ -30,7 +30,7 @@ const createCoupon = async (req, res) => {
     }
 };
 
-// Apply a coupon to the cart
+// Applying a coupon to the cart
 const applyCoupon = async (req, res) => {
     const { cart } = req.body;  // Cart items with total
     const { code } = req.params;  // Coupon code passed as URL parameter
@@ -56,7 +56,7 @@ const applyCoupon = async (req, res) => {
                 totalDiscount = calculateDiscount(coupon.details, cartTotal);
                 break;
             case 'payment':
-                // Cashback logic if applicable
+                // Cashback logic if needed
                 if (coupon.details.cashback) {
                     totalDiscount = Math.min(coupon.details.cashback, coupon.details.maxCashback || Infinity);
                 }
@@ -76,7 +76,7 @@ const applyCoupon = async (req, res) => {
     }
 };
 
-// Get a coupon by its ID
+// Getting a coupon by its ID
 const getCouponById = async (req, res) => {
     const { id } = req.params;
     try {
@@ -91,7 +91,7 @@ const getCouponById = async (req, res) => {
     }
 };
 
-// Update a coupon by its ID
+// Updating a coupon by its ID
 const updateCouponById = async (req, res) => {
     const { id } = req.params;
     try {
@@ -106,7 +106,7 @@ const updateCouponById = async (req, res) => {
     }
 };
 
-// Delete a coupon by its ID
+// Deleting a coupon by its ID
 const deleteCouponById = async (req, res) => {
     const { id } = req.params;
     try {
@@ -125,18 +125,18 @@ const getApplicableCoupons = async (req, res) => {
     const { cart } = req.body;
     try {
         console.log('Received cart:', cart);
-        // Fetch only unexpired coupons
+        // Fetching only unexpired coupons
         const coupons = await Coupon.find({ expirationDate: { $gte: new Date() } });  
         console.log('Fetched Coupons:', coupons);
 
-        // Filter coupons that are applicable and map them to include specific details
+        // Filter coupons that are applicable 
         const applicableCoupons = coupons.filter(coupon => {
             return checkCouponCondition(coupon, cart);
         }).map(coupon => {
             return {
                 couponId: coupon._id,
                 couponType: coupon.type,
-                discount: calculateDiscount(coupon.details, cart) // Calculate the discount based on the coupon type
+                discount: calculateDiscount(coupon.details, cart) // Calculating the discount based on the coupon type
             };
         });
 
@@ -151,14 +151,14 @@ const getApplicableCoupons = async (req, res) => {
 function checkCouponCondition(coupon, cart) {
     switch (coupon.type) {
         case 'product-wise':
-            // Check if applicableProducts array is defined and contains the productType
+            // Checking if applicableProducts array is defined and contains the productType
             if (coupon.details.applicableProducts && Array.isArray(coupon.details.applicableProducts)) {
                 return cart.items.some(item =>
                     coupon.details.applicableProducts.includes(cart.items[0].productType)
  &&
                     (item.quantity >= (coupon.details.minQuantity || 1))
                 ) && (
-                    !coupon.details.applicablePlaces || // Safely handle undefined applicablePlaces
+                    !coupon.details.applicablePlaces || 
                     (cart.places && coupon.details.applicablePlaces.includes(cart.places))
                 );
             }
@@ -172,8 +172,6 @@ function checkCouponCondition(coupon, cart) {
 
 
 
-
-
 function calculateDiscount(details, cart) {
     switch(details.type) {
         case 'percentage':
@@ -182,7 +180,7 @@ function calculateDiscount(details, cart) {
             return (cart.total >= details.threshold) ? details.flatDiscount : 0;
         default:
             console.warn(`Unsupported discount type: ${details.type}`);
-            return 0;  // Default no discount if type is not supported
+            return 0;  // Default no discount ,if type is not supported.
     }
 }
 

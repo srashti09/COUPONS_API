@@ -35,7 +35,7 @@ const couponSchema = new mongoose.Schema({
     }
 });
 
-// Middleware to log before saving (optional, but good for debugging)
+// Middleware to log before saving 
 couponSchema.pre('save', function(next) {
     console.log(`Saving coupon with code: ${this.code}, type: ${this.type}`);
     next();

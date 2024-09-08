@@ -9,7 +9,7 @@ const connectDB = async () => {
     console.log('MongoDB Atlas connected successfully!');
   } catch (error) {
     console.error('MongoDB connection error:', error);
-    process.exit(1); // Exit process with failure
+    process.exit(1); 
   }
 };
 
